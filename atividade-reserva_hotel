@@ -1,0 +1,97 @@
+CREATE DATABASE reserva_hotel;
+
+/c reserva_hotel
+
+CREATE TABLE hospedes (
+    id_hospede SERIAL PRIMARY KEY,
+    nome_hospede VARCHAR(50),
+    email VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE quartos (
+    id_quarto SERIAL PRIMARY KEY,
+    numero_quarto INT UNIQUE NOT NULL,
+    valor DECIMAL(5,2) NOT NULL
+);
+
+CREATE TABLE reservas (
+    id_reserva SERIAL PRIMARY KEY,
+    data_reserva DATE NOT NULL,
+    data_check_in DATE,
+    data_check_out DATE,
+    horario_check_in TIME NOT NULL,
+    horario_check_out TIME,
+    all_incluse BOOLEAN,
+    id_hospede INT NOT NULL,
+    id_quarto INT NOT NULL,
+    CONSTRAINT fk_hospede FOREIGN KEY (id_hospede) REFERENCES hospedes(id_hospede),
+    CONSTRAINT fk_quarto FOREIGN KEY (id_quarto) REFERENCES quartos(id_quarto)
+);
+
+INSERT INTO hospedes (nome_hospede, email) VALUES ('Luiz Gabriel', 'Luiz.Carvalhogg@gmail.com'),
+('Carlos Eduardo', 'Dudu.Tech2@hotmail.com'),
+('Valter', 'valter25@Yahoo.com'),
+('Roberto', 'robertao2028@gmail.com'),
+('Valéria', 'valeria90@gmail.com');
+
+INSERT INTO quartos (numero_quarto, valor) VALUES (1, 190.50),
+(2, 249.99),
+(3, 190.50),
+(4, 150.25),
+(5, 220.50);
+
+INSERT INTO quartos (numero_quarto, valor) VALUES (6, 300.00);
+
+INSERT INTO reservas (data_reserva, data_check_in, data_check_out, horario_check_in, horario_check_out, all_incluse, id_hospede, id_quarto) VALUES 
+('2024-10-31', '2024-10-31', '2024-11-04', '21;30', '14:00', FALSE, 3, 1),
+('2024-10-21', '2024-10-23', '2024-10-28', '6:10', '9:00', 4, 5),
+('2024-11-03', '2024-11-03', '2024-11-03', '9:00', '18:30', 5, 3);
+
+INSERT INTO reservas (data_reserva, data_check_in, data_check_out, horario_check_in, horario_check_out, all_incluse, id_hospede, id_quarto) VALUES 
+('2024-11-07', '2024-11-09', '15:30',FALSE, 2, 4);
+
+INSERT INTO reservas (data_reserva, data_check_in, horario_check_in, all_incluse, id_hospede, id_quarto) VALUES
+('2024-11-07', '2024-11-09', '15:30',FALSE, 2, 4);
+
+SELECT
+r.id_reserva,
+h.nome_hospede as hospede,
+q.numero_quarto,
+r.data_check_in,
+r.data_check_out
+FROM
+reservas r
+JOIN
+hospedes h ON r.id_hospede = h.id_hospede
+JOIN
+quartos q ON r.id_quarto = q.id_quarto
+WHERE
+r.data_check_out IS NOT NULL
+
+SELECT
+r.id_reserva,
+h.nome_hospede as hospede,
+q.numero_quarto,
+r.data_check_in,
+r.data_check_out
+FROM
+reservas r
+JOIN
+hospedes h ON r.id_hospede = h.id_hospede
+JOIN
+quartos q ON r.id_quarto = q.id_quarto
+
+SELECT
+r.id_reserva,
+h.nome_hospede as hospede,
+q.numero_quarto,
+r.data_check_in,
+r.data_check_out
+FROM
+reservas r
+JOIN
+hospedes h ON r.id_hospede = h.id_hospede
+JOIN
+quartos q ON r.id_quarto = q.id_quarto
+WHERE
+q.
